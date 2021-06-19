@@ -1,0 +1,9 @@
+name: onedchess
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pre-commit
+  - black
+  - isort
+  - flake8
