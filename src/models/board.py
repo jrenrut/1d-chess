@@ -23,40 +23,37 @@ class Square:
 
 class Board:
     def __init__(
-        self, size=16, positions=["k", "q", "r", "b", "n", "p"], mirror_positions=True
+        self,
+        size=16,
+        placement="kqrbnp",
+        mirror_placement=True,
+        read_colors=False,
     ):
 
+        self.size = size
         self.board = [
             Square(i, SquareColor.WHITE) if i % 2 else Square(i, SquareColor.BLACK)
             for i in range(size)
         ]
 
-        if mirror_positions:
-            assert len(positions) <= size / 2, "Cannot fit pieces on board."
-            n_start = len(positions)
-            empty = [""] * (size - (2 * n_start))
-            positions = deepcopy(positions) + empty + deepcopy(positions)[::-1]
-            colors = (
-                [piece.PieceColor.WHITE] * n_start
-                + empty
-                + [piece.PieceColor.BLACK] * n_start
-            )
+        if mirror_placement:
+            assert len(placement) <= self.size / 2, "Cannot fit pieces on board."
+            n_start = len(placement)
+            empty = "." * (self.size - (2 * n_start))
+            placement = deepcopy(placement).upper() + empty + deepcopy(placement)[::-1]
         else:
-            assert len(positions) == size, "Cannot fit pieces on board."
-            if "" in positions:
-                n_start = positions.index("")
-            else:  # no empty spaces
-                n_start = size / 2
-            colors = (
-                [piece.PieceColor.WHITE] * n_start + empty + [piece.PieceColor.BLACK]
-            )
+            assert len(placement) == self.size, "Cannot fit pieces on board."
 
-        self.start_positions = deepcopy(positions)
+        self.update(placement)
+
+    def update(self, placement):
+
+        self.placement = deepcopy(placement)
 
         piece_id = 0
-        for i, (position, color) in enumerate(zip(positions, colors)):
-            if position:
-                self.board[i].current = piece.get_piece(position, piece_id, color)
+        for i, (piece_) in enumerate(placement):
+            if piece_ != ".":
+                self.board[i].current = piece.get_piece(piece_, piece_id)
                 piece_id += 1
 
     def __getitem__(self, index):
@@ -68,4 +65,4 @@ class Board:
 
 
 def parse_ctn(ctn):
-    positions, active, halfmove, fullmove = ctn.split(" ")
+    placement, active, castling, en_passent, halfmove, fullmove = ctn.split(" ")

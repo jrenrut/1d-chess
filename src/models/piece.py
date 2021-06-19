@@ -21,6 +21,8 @@ class Piece:
     id: int
     color: PieceColor
 
+    steps = []
+    strides = []
     can_move = True  # pieces pinned to king cannot move
 
     def __post_init__(self):
@@ -76,7 +78,12 @@ class King(Piece):
     in_check = False
 
 
-def get_piece(name, id, color):
+def get_piece(name, id):
+
+    if name.isupper():
+        color = PieceColor.WHITE
+    else:
+        color = PieceColor.BLACK
 
     if name.lower() == "p":
         return Pawn(id, color)
