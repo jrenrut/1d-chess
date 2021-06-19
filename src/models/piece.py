@@ -1,10 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-
-class PieceColor(Enum):
-    WHITE = 0
-    BLACK = 1
+from .color import Color
 
 
 class PieceType(Enum):
@@ -19,8 +16,9 @@ class PieceType(Enum):
 @dataclass
 class Piece:
     id: int
-    color: PieceColor
+    color: Color
 
+    is_piece = True
     steps = []
     strides = []
     can_move = True  # pieces pinned to king cannot move
@@ -81,9 +79,9 @@ class King(Piece):
 def get_piece(name, id):
 
     if name.isupper():
-        color = PieceColor.WHITE
+        color = Color.WHITE
     else:
-        color = PieceColor.BLACK
+        color = Color.BLACK
 
     if name.lower() == "p":
         return Pawn(id, color)

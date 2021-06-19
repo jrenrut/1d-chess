@@ -1,23 +1,18 @@
 from argparse import Namespace
 from copy import deepcopy
 from dataclasses import dataclass
-from enum import Enum
 from typing import Optional
 
 from . import piece
+from .color import Color
 
-NOPIECE = Namespace(string=".")
-
-
-class SquareColor(Enum):
-    WHITE = 0
-    BLACK = 1
+NOPIECE = Namespace(string=".", is_piece=False)
 
 
 @dataclass
 class Square:
     index: int
-    color: SquareColor
+    color: Color
     current: Optional[piece.Piece] = NOPIECE
 
 
@@ -32,7 +27,7 @@ class Board:
 
         self.size = size
         self.board = [
-            Square(i, SquareColor.WHITE) if i % 2 else Square(i, SquareColor.BLACK)
+            Square(i, Color.WHITE) if i % 2 else Square(i, Color.BLACK)
             for i in range(size)
         ]
 
