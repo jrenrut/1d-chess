@@ -38,10 +38,10 @@ class Pawn(Piece):
 
     def __post_init__(self):
         super().__post_init__()
-        if self.color:
-            self.steps = [[-1, -2]]
-        else:
+        if self.color.value == 0:
             self.steps = [[1, 2]]
+        else:
+            self.steps = [[-1, -2]]
 
 
 @dataclass
@@ -72,9 +72,15 @@ class Queen(Piece):
 @dataclass
 class King(Piece):
     name = PieceType.KING
-    steps = [[-1], [1]]
     has_moved = False
     in_check = False
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.color.value == 0:
+            self.steps = [[-1], [1, 2]]
+        else:
+            self.steps = [[-1, -2], [1]]
 
 
 def make_piece(name, id):

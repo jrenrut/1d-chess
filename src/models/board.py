@@ -42,7 +42,7 @@ class Board:
 
     def update_piece(self, index, new_piece):
 
-        self.board[index] = new_piece
+        self.board[index].current = new_piece
 
     def __getitem__(self, index):
         return self.board[index]
