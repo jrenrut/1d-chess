@@ -2,13 +2,16 @@ from .color import Color
 
 
 class Player:
-    def __init__(self, pieces):
+    def __init__(self, squares):
 
-        self.pieces = pieces
+        self.squares = squares
 
-        if pieces[0].color.value == 0:
+        if squares[0].current.color.value == 0:
             self.color = Color.WHITE
         else:
             self.color = Color.BLACK
 
-        self.king = next(piece for piece in self.pieces if piece.name.value == "k")
+        # assumes single king
+        self.king = next(
+            square for square in self.squares if square.current.name.value == "k"
+        )

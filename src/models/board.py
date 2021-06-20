@@ -1,19 +1,8 @@
-from argparse import Namespace
 from copy import deepcopy
-from dataclasses import dataclass
-from typing import Optional
 
-from . import piece
 from .color import Color
-
-NOPIECE = Namespace(string=".", is_piece=False)
-
-
-@dataclass
-class Square:
-    index: int
-    color: Color
-    current: Optional[piece.Piece] = NOPIECE
+from .piece import make_piece
+from .square import Square
 
 
 class Board:
@@ -48,8 +37,12 @@ class Board:
         piece_id = 0
         for i, (piece_) in enumerate(placement):
             if piece_ != ".":
-                self.board[i].current = piece.get_piece(piece_, piece_id)
+                self.board[i].current = make_piece(piece_, piece_id)
                 piece_id += 1
+
+    def update_piece(self, index, new_piece):
+
+        self.board[index] = new_piece
 
     def __getitem__(self, index):
         return self.board[index]

@@ -21,6 +21,7 @@ class Piece:
     is_piece = True
     steps = []
     strides = []
+    jumps = []
     can_move = True  # pieces pinned to king cannot move
 
     def __post_init__(self):
@@ -38,15 +39,15 @@ class Pawn(Piece):
     def __post_init__(self):
         super().__post_init__()
         if self.color:
-            self.steps = [-1, -2]
+            self.steps = [[-1, -2]]
         else:
-            self.steps = [1, 2]
+            self.steps = [[1, 2]]
 
 
 @dataclass
 class Knight(Piece):
     name = PieceType.KNIGHT
-    steps = [-3, -2, 2, 3]
+    jumps = [-3, -2, 2, 3]
 
 
 @dataclass
@@ -71,12 +72,12 @@ class Queen(Piece):
 @dataclass
 class King(Piece):
     name = PieceType.KING
-    steps = [-1, 1]
+    steps = [[-1], [1]]
     has_moved = False
     in_check = False
 
 
-def get_piece(name, id):
+def make_piece(name, id):
 
     if name.isupper():
         color = Color.WHITE
