@@ -103,13 +103,17 @@ class Game:
                                     piece.name.value == "p"
                                     and not piece.has_moved
                                     and piece.steps[0][-1] + square.index
-                                    == self.en_passant
+                                    == int(self.en_passant)
                                 ):
                                     continue
                                 break
                         else:
                             moves.append(attack_square.index)
-                            if abs(step) == 2 and piece.name.value == "k":
+                            if (
+                                piece.color == self.active_color
+                                and abs(step) == 2
+                                and piece.name.value == "k"
+                            ):
                                 self.castle_squares = [
                                     square.index,
                                     square.index + steps[0],
@@ -221,7 +225,6 @@ class Game:
         placement = [p for p in self.placement]
         placement[end] = deepcopy(placement[start])
         placement[start] = "."
-        self.placement = "".join(placement)
         if piece.name.value == "p":
             if not piece.has_moved:
                 piece.has_moved = True
@@ -233,7 +236,8 @@ class Game:
                     self.en_passant = str(skipped)
                     skipped_square = self.board[skipped]
                     if skipped_square.current.is_piece:
-                        self.board.update(skipped, NOPIECE)
+                        self.board.update_piece(skipped, NOPIECE)
+                        placement[skipped] = "."
 
         if piece.name.value == "r":
             if not piece.has_moved:
@@ -272,8 +276,12 @@ class Game:
                         rook.has_moved = True
                         self.board.update_piece(skipped, rook)
                         self.board.update_piece(index, NOPIECE)
+                        placement[skipped] = deepcopy(placement[index])
+                        placement[index] = "."
                         break
                     index += 1 * sign
+
+        self.placement = "".join(placement)
 
         if halfmove:
             self.halfmove = str(int(self.halfmove) + 1)
