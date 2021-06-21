@@ -2,7 +2,6 @@ from copy import deepcopy
 
 from .board import Board
 from .color import Color
-from .player import Player
 from .square import NOPIECE
 
 
@@ -62,13 +61,6 @@ class Game:
             else:
                 black_pieces.append(square)
 
-        if self.active == "w":
-            self.player = Player(white_pieces)
-            self.opponent = Player(black_pieces)
-        else:
-            self.player = Player(black_pieces)
-            self.opponent = Player(white_pieces)
-
     def update_moves(self):
 
         self.player_moves = {}
@@ -84,6 +76,10 @@ class Game:
             color = piece.color
             moves = []
             if piece.steps:
+                if piece.name.value == "p":
+                    print(piece.steps, piece.color)
+                    print(self.board[square.index].current.steps)
+                    print("--")
                 # list of lists because king can move forward or backward
                 for steps in piece.steps:
                     for step in steps:
