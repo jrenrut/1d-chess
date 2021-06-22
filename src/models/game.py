@@ -21,6 +21,10 @@ class Game:
             for r_index in r_indexes:
                 if abs(placement.index("k") - r_index) >= 3:
                     self.castling = "Kk"
+        if self.castling == "-":
+            for piece in self.board.board:
+                if piece.current.is_piece and piece.current.name.value == "k":
+                    piece.current.steps = [[s[0]] for s in piece.current.steps]
         self.en_passant = "-"
         self.halfmove = "0"
         self.fullmove = "1"
@@ -129,14 +133,14 @@ class Game:
                                     if attack_square.index > square.index:
                                         stride_check_moves = [
                                             sm
-                                            for sm in stride_moves
-                                            if sm > square.index
+                                            for j, sm in enumerate(stride_moves)
+                                            if (sm > square.index) and (j % stride == 0)
                                         ]
                                     else:
                                         stride_check_moves = [
                                             sm
-                                            for sm in stride_moves
-                                            if sm < square.index
+                                            for j, sm in enumerate(stride_moves)
+                                            if (sm < square.index) and (j % stride == 0)
                                         ]
                                     self.checks.append([square, stride_check_moves])
                                 break
@@ -168,20 +172,23 @@ class Game:
 
         if self.checks:
             legal_moves = {}
-            for player_square, attack_squares in self.player_moves.items():
-                piece_moves = []
-                for attack_square in attack_squares:
-                    for checking_square, intermediate_squares in self.checks:
+            total_checks = deepcopy(len(self.checks))
+            handled_checks = [0] * total_checks
+            for i, (checking_square, intermediate_squares) in enumerate(self.checks):
+                for player_square, attack_squares in self.player_moves.items():
+                    piece_moves = []
+                    for attack_square in attack_squares:
                         if attack_square == checking_square.index:
                             piece_moves.append(attack_square)
                         for intermediate_square in intermediate_squares:
                             if attack_square == intermediate_square:
                                 piece_moves.append(attack_square)
-                if piece_moves:
-                    legal_moves[player_square] = piece_moves
-            if not legal_moves:
+                    if piece_moves:
+                        legal_moves[player_square] = piece_moves
+                        handled_checks[i] = 1
+            if not legal_moves or sum(handled_checks) < total_checks:
                 self.checkmate()
-                raise Exception("Vibe Check Status: FAILED")
+                raise Exception("Vibe Check: FAILED")
             self.player_moves = legal_moves
             self.castle_squares = []
 
