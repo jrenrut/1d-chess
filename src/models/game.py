@@ -46,7 +46,6 @@ class Game:
             self.active_color = Color.WHITE
         else:
             self.active_color = Color.BLACK
-        self.board.update(self.placement)
         self.update_players()
         self.update_moves()
 
@@ -76,10 +75,6 @@ class Game:
             color = piece.color
             moves = []
             if piece.steps:
-                if piece.name.value == "p":
-                    print(piece.steps, piece.color)
-                    print(self.board[square.index].current.steps)
-                    print("--")
                 # list of lists because king can move forward or backward
                 for steps in piece.steps:
                     for step in steps:
@@ -186,7 +181,7 @@ class Game:
                     legal_moves[player_square] = piece_moves
             if not legal_moves:
                 self.checkmate()
-                return
+                raise Exception("Vibe Check Status: FAILED")
             self.player_moves = legal_moves
             self.castle_squares = []
 
@@ -213,6 +208,7 @@ class Game:
         assert end in self.player_moves[start], "Illegal move."
 
         self.board.update_piece(start, NOPIECE)
+        self.board.update_piece(end, piece)
 
         halfmove = True
         if self.board[end].current.is_piece:
@@ -304,3 +300,8 @@ class Game:
                 self.fullmove,
             ]
         )
+
+    @property
+    def show(self):
+
+        self.board.show

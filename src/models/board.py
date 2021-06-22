@@ -51,6 +51,30 @@ class Board:
     def ctn(self):
         return "".join([square.current.string for square in self.board])
 
+    @property
+    def show(self):
+        lines = [""] * 12
+        count = 1
+        for square in self.board:
+            if square.current.is_piece:
+                square_show = "".join(
+                    [
+                        p if p != " " else s
+                        for p, s in zip(square.current.show, square.show)
+                    ]
+                )
+            else:
+                square_show = square.show
+            square_show = square_show.split("\n")
+            for i in range(12):
+                if count == self.size:
+                    lines[i] += square_show[i] + "\n"
+                else:
+                    lines[i] += square_show[i]
+            count += 1
+        board_show = "".join(lines)
+        print(board_show)
+
 
 def parse_ctn(ctn):
     placement, active, castling, en_passent, halfmove, fullmove = ctn.split(" ")
