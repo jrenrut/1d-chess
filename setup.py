@@ -8,5 +8,5 @@ setup(
     description="Flexible One Dimensional Chess Implementation",
     author="Jeremy Turner",
     url="https://github.com/jrenrut/1d-chess",
-    packages=["distutils", "pre-commit", "black", "flake8", "isort"],
+    packages=["distutils", "numpy"],
 )

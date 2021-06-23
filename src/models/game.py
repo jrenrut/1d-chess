@@ -33,6 +33,8 @@ class Game:
         self.update_moves()
         self.ctn
 
+        self.log = [self.ctn]
+
     def checkmate(self):
 
         return
@@ -52,6 +54,7 @@ class Game:
             self.active_color = Color.BLACK
         self.update_players()
         self.update_moves()
+        self.log.append(self.ctn)
 
     def update_players(self):
 
@@ -95,7 +98,8 @@ class Game:
                                 if attack_square.current.name.value == "k":
                                     self.checks.append([square, []])
                                 elif (
-                                    piece.name.value == "p"
+                                    isinstance(self.en_passant, int)
+                                    and piece.name.value == "p"
                                     and not piece.has_moved
                                     and piece.steps[0][-1] + square.index
                                     == int(self.en_passant)
@@ -115,39 +119,51 @@ class Game:
                                     square.index + steps[1],
                                 ]
             elif piece.strides:
-                stride_moves = []
                 for stride in piece.strides:
+                    stride_moves = []
                     i = 1
                     while True:
+                        # check square on board
                         if ((square.index + stride * i) < 0) or (
                             (square.index + stride * i) >= self.size
                         ):
                             break
+                        # get new attack square
                         attack_square = self.board[square.index + stride * i]
                         if attack_square.current.is_piece:
+                            # stop if attack square is friend
                             if attack_square.current.color == color:
                                 break
+                            # attack square is enemy
                             else:
+                                # track move
                                 stride_moves.append(attack_square.index)
                                 if attack_square.current.name.value == "k":
+                                    # if attacking king forward
                                     if attack_square.index > square.index:
+                                        # collect stride moves up to and including king
                                         stride_check_moves = [
                                             sm
                                             for j, sm in enumerate(stride_moves)
                                             if (sm > square.index) and (j % stride == 0)
                                         ]
+                                    # if attacking king backward
                                     else:
+                                        # collect stride moves up to and including king
                                         stride_check_moves = [
                                             sm
                                             for j, sm in enumerate(stride_moves)
                                             if (sm < square.index) and (j % stride == 0)
                                         ]
+                                    # add start square and all stride squares to `checks`
                                     self.checks.append([square, stride_check_moves])
+                                # stop stride
                                 break
+                        # attack square is empty
                         else:
                             stride_moves.append(attack_square.index)
                         i += 1
-                moves += stride_moves
+                    moves += stride_moves
             else:
                 for jump in piece.jumps:
                     if ((square.index + jump) < 0) or (
