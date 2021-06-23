@@ -34,6 +34,7 @@ class Game:
         self.ctn
 
         self.log = [self.ctn]
+        self.states = []
 
     def checkmate(self):
 
@@ -48,6 +49,10 @@ class Game:
             self.halfmove,
             self.fullmove,
         ) = self.ctn.split(" ")
+        state = " ".join([self.placement, self.active, self.castling, self.en_passant])
+        if state in self.states:
+            raise Exception("Threefold repetition")
+        self.states.append(state)
         if self.active == "w":
             self.active_color = Color.WHITE
         else:
@@ -304,6 +309,8 @@ class Game:
             self.halfmove = "0"
         else:
             self.halfmove = str(int(self.halfmove) + 1)
+            if int(self.halfmove) == 100:
+                raise Exception("50 move rule")
 
         if self.active == "w":
             self.active = "b"

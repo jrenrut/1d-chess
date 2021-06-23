@@ -40,10 +40,36 @@ class Pawn(Piece):
         super().__post_init__()
         if self.color.value == 0:
             self.steps = [[1, 2]]
-            self.show = "            \n            \n            \n            \n    PPPPP   \n   PPPPPPP  \n    PPPPP   \n     PPP    \n     PPP    \n   PPPPPPP  \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "    ooooo    ",
+                "   ooooooo   ",
+                "    ooooo    ",
+                "     ooo     ",
+                "     ooo     ",
+                "   ooooooo   ",
+                "             ",
+                "             ",
+            ]
         else:
             self.steps = [[-1, -2]]
-            self.show = "            \n            \n            \n            \n   -ppppp-  \n  -ppppppp- \n   -ppppp-  \n    -ppp-   \n    -ppp-   \n  -ppppppp- \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "    *****    ",
+                "   *******   ",
+                "    *****    ",
+                "     ***     ",
+                "     ***     ",
+                "   *******   ",
+                "             ",
+                "             ",
+            ]
 
 
 @dataclass
@@ -54,9 +80,35 @@ class Knight(Piece):
     def __post_init__(self):
         super().__post_init__()
         if self.color.value == 0:
-            self.show = "            \n            \n            \n      NNN   \n     NNNNN  \n   NNNNNNN  \n   N  NNNN  \n      NNN   \n     NNNN   \n   NNNNNNN  \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "             ",
+                "      ooo    ",
+                "     ooooo   ",
+                "   ooooooo   ",
+                "   o  oooo   ",
+                "      ooo    ",
+                "     oooo    ",
+                "   ooooooo   ",
+                "             ",
+                "             ",
+            ]
         else:
-            self.show = "            \n            \n            \n     -nnn-  \n    -nnnnn- \n  -nnnnnnn- \n  -n  nnnn- \n     -nnn-  \n    -nnnn-  \n  -nnnnnnn- \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "             ",
+                "      ***    ",
+                "     *****   ",
+                "   *******   ",
+                "   *  ****   ",
+                "      ***    ",
+                "     ****    ",
+                "   *******   ",
+                "             ",
+                "             ",
+            ]
 
 
 @dataclass
@@ -67,9 +119,35 @@ class Bishop(Piece):
     def __post_init__(self):
         super().__post_init__()
         if self.color.value == 0:
-            self.show = "            \n            \n      B     \n     BBB    \n    BBBBB   \n   BBBBBBB  \n    BBBBB   \n     BBB    \n     BBB    \n   BBBBBBB  \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "      o      ",
+                "     ooo     ",
+                "    ooooo    ",
+                "   ooooooo   ",
+                "    ooooo    ",
+                "     ooo     ",
+                "     ooo     ",
+                "   ooooooo   ",
+                "             ",
+                "             ",
+            ]
         else:
-            self.show = "            \n            \n     -b-    \n    -bbb-   \n   -bbbbb-  \n  -bbbbbbb- \n   -bbbbb-  \n    -bbb-   \n    -bbb-   \n  -bbbbbbb- \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "      *      ",
+                "     ***     ",
+                "    *****    ",
+                "   *******   ",
+                "    *****    ",
+                "     ***     ",
+                "     ***     ",
+                "   *******   ",
+                "             ",
+                "             ",
+            ]
 
 
 @dataclass
@@ -81,9 +159,35 @@ class Rook(Piece):
     def __post_init__(self):
         super().__post_init__()
         if self.color.value == 0:
-            self.show = "            \n            \n            \n   RR R RR  \n   RRRRRRR  \n   RRRRRRR  \n   RRRRRRR  \n     RRR    \n     RRR    \n   RRRRRRR  \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "             ",
+                "   oo o oo   ",
+                "   ooooooo   ",
+                "   ooooooo   ",
+                "   ooooooo   ",
+                "     ooo     ",
+                "     ooo     ",
+                "   ooooooo   ",
+                "             ",
+                "             ",
+            ]
         else:
-            self.show = "            \n            \n            \n  -rr r rr- \n  -rrrrrrr- \n  -rrrrrrr- \n  -rrrrrrr- \n    -rrr-   \n    -rrr-   \n  -rrrrrrr- \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "             ",
+                "   ** * **   ",
+                "   *******   ",
+                "   *******   ",
+                "   *******   ",
+                "     ***     ",
+                "     ***     ",
+                "   *******   ",
+                "             ",
+                "             ",
+            ]
 
 
 @dataclass
@@ -94,9 +198,35 @@ class Queen(Piece):
     def __post_init__(self):
         super().__post_init__()
         if self.color.value == 0:
-            self.show = "            \n            \n     Q Q    \n   Q QQQ Q  \n   QQQQQQQ  \n   QQQQQQQ  \n    QQQQQ   \n     QQQ    \n     QQQ    \n   QQQQQQQ  \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "     o o     ",
+                "   o ooo o   ",
+                "   ooooooo   ",
+                "   ooooooo   ",
+                "    ooooo    ",
+                "     ooo     ",
+                "     ooo     ",
+                "   ooooooo   ",
+                "             ",
+                "             ",
+            ]
         else:
-            self.show = "            \n            \n    -q q-   \n  -q qqq q- \n  -qqqqqqq- \n  -qqqqqqq- \n   -qqqqq-  \n    -qqq-   \n    -qqq-   \n  -qqqqqqq- \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "     * *     ",
+                "   * *** *   ",
+                "   *******   ",
+                "   *******   ",
+                "    *****    ",
+                "     ***     ",
+                "     ***     ",
+                "   *******   ",
+                "             ",
+                "             ",
+            ]
 
 
 @dataclass
@@ -109,10 +239,36 @@ class King(Piece):
         super().__post_init__()
         if self.color.value == 0:
             self.steps = [[-1], [1, 2]]
-            self.show = "            \n            \n     KKK    \n   KKKKKKK  \n     KKK    \n   KKKKKKK  \n    KKKKK   \n     KKK    \n     KKK    \n   KKKKKKK  \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "     ooo     ",
+                "   ooooooo   ",
+                "     ooo     ",
+                "   ooooooo   ",
+                "    ooooo    ",
+                "     ooo     ",
+                "     ooo     ",
+                "   ooooooo   ",
+                "             ",
+                "             ",
+            ]
         else:
             self.steps = [[-1, -2], [1]]
-            self.show = "            \n            \n    -kkk-   \n  -kkkkkkk- \n    -kkk-   \n  -kkkkkkk- \n   -kkkkk-  \n    -kkk-   \n    -kkk-   \n  -kkkkkkk- \n            \n            "
+            self.show = [
+                "             ",
+                "             ",
+                "     ***     ",
+                "   *******   ",
+                "     ***     ",
+                "   *******   ",
+                "    *****    ",
+                "     ***     ",
+                "     ***     ",
+                "   *******   ",
+                "             ",
+                "             ",
+            ]
 
 
 def make_piece(name, id):

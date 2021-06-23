@@ -53,27 +53,23 @@ class Board:
 
     @property
     def show(self):
-        lines = [""] * 12
-        count = 1
-        for square in self.board:
+
+        lines = []
+        for i, square in enumerate(self.board):
             if square.current.is_piece:
-                square_show = "".join(
-                    [
-                        p if p != " " else s
-                        for p, s in zip(square.current.show, square.show)
-                    ]
-                )
+                square_show = []
+                for pc, sqr in zip(square.current.show, square.show):
+                    square_show.append([p if p != " " else s for p, s in zip(pc, sqr)])
             else:
                 square_show = square.show
-            square_show = square_show.split("\n")
-            for i in range(12):
-                if count == self.size:
-                    lines[i] += square_show[i] + "\n"
+            for j, line in enumerate(square_show):
+                line = "".join(line)
+                if i == 0:
+                    lines.append(line)
                 else:
-                    lines[i] += square_show[i]
-            count += 1
-        board_show = "".join(lines)
-        print(board_show)
+                    lines[j] += line
+
+        print("\n".join(lines))
 
 
 def parse_ctn(ctn):
