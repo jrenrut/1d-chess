@@ -230,22 +230,24 @@ class Game:
         assert start in self.player_moves, "Illegal move."
         assert end in self.player_moves[start], "Illegal move."
 
+        halfmove_reset = False
+        if self.board[end].current.is_piece:
+            halfmove_reset = True
+
         self.board.update_piece(start, NOPIECE)
         self.board.update_piece(end, piece)
 
-        halfmove = True
-        if self.board[end].current.is_piece:
-            halfmove = False
+        self.en_passant = "-"
 
         placement = [p for p in self.placement]
         placement[end] = deepcopy(placement[start])
         placement[start] = "."
         if piece.name.value == "p":
+            halfmove_reset = True
             if not piece.has_moved:
                 piece.has_moved = True
                 piece.steps = [[piece.steps[0][0]]]
                 self.board.update_piece(end, piece)
-                halfmove = False
                 if abs(start - end) == 2:
                     skipped = int((start + end) / 2)  # index between squares
                     self.en_passant = str(skipped)
@@ -298,7 +300,9 @@ class Game:
 
         self.placement = "".join(placement)
 
-        if halfmove:
+        if halfmove_reset:
+            self.halfmove = "0"
+        else:
             self.halfmove = str(int(self.halfmove) + 1)
 
         if self.active == "w":
